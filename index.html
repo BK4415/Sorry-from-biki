@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Ruma</title>
+<meta name="description" content="A little letter for Ruma.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8B2635">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Paper grain / vignette overlay, purely decorative -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================================================
+     SCREEN 0 — ENVELOPE
+     ============================================================ -->
+<section id="envelope-screen" class="envelope-screen">
+  <div class="envelope" id="envelope">
+    <p class="envelope-line envelope-to" id="envelope-to">To: Ruma</p>
+    <div class="envelope-body">
+      <div class="envelope-flap"></div>
+      <div class="envelope-pocket"></div>
+      <button class="wax-seal" id="open-envelope-btn" aria-label="Open the letter">
+        <span class="wax-seal-glyph">&amp;</span>
+      </button>
+    </div>
+    <p class="envelope-line envelope-from" id="envelope-from">From: Bikash</p>
+    <p class="envelope-hint" id="envelope-hint">tap the seal to open</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     MAIN LETTER (hidden until envelope opens)
+     ============================================================ -->
+<main id="letter" class="letter" hidden>
+
+  <!-- Floating music control, follows the whole page -->
+  <button class="music-toggle" id="music-toggle" aria-pressed="false" aria-label="Play our song">
+    <svg viewBox="0 0 24 24" class="icon-note" aria-hidden="true">
+      <path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+  </button>
+  <audio id="bg-audio" loop preload="none"></audio>
+
+  <!-- ---------------- Greeting / opening paragraphs ---------------- -->
+  <section class="page page-greeting reveal">
+    <p class="greeting" id="greeting">Dear Ruma,</p>
+    <div id="letter-paragraphs" class="letter-paragraphs"></div>
+  </section>
+
+  <!-- ---------------- Our story ---------------- -->
+  <section class="page page-story">
+    <h2 class="section-title reveal" id="story-title">Our story so far</h2>
+    <div class="timeline" id="timeline"><!-- memory cards injected here --></div>
+  </section>
+
+  <!-- ---------------- Listen ---------------- -->
+  <section class="page page-listen reveal">
+    <h2 class="section-title" id="listen-title">A song for you</h2>
+    <div class="player-card">
+      <div class="tape-reel left"></div>
+      <div class="tape-reel right"></div>
+      <div class="player-info">
+        <p class="player-title" id="audio-title">Our song</p>
+        <p class="player-subtitle" id="audio-subtitle">Replace with the track that reminds you of her</p>
+        <div class="player-controls">
+          <button id="audio-play-btn" class="player-play" aria-label="Play song">
+            <svg viewBox="0 0 24 24" class="icon-play" aria-hidden="true"><polygon points="6,4 20,12 6,20" fill="currentColor"/></svg>
+          </button>
+          <div class="player-progress-track" id="audio-progress-track">
+            <div class="player-progress-fill" id="audio-progress-fill"></div>
+          </div>
+          <span class="player-time" id="audio-time">0:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------- Watch ---------------- -->
+  <section class="page page-watch reveal">
+    <h2 class="section-title" id="watch-title">Something I recorded</h2>
+    <div class="video-frame">
+      <video id="message-video" playsinline preload="metadata"></video>
+      <button class="video-play-btn" id="video-play-btn" aria-label="Play video">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="9,6 20,12 9,18" fill="currentColor"/></svg>
+      </button>
+      <div class="washi-tape washi-tl"></div>
+      <div class="washi-tape washi-br"></div>
+    </div>
+    <p class="video-caption" id="video-caption">A little something I recorded for you.</p>
+  </section>
+
+  <!-- ---------------- Gallery ---------------- -->
+  <section class="page page-gallery reveal">
+    <h2 class="section-title" id="gallery-title">A few more moments</h2>
+    <div class="collage" id="collage"><!-- gallery polaroids injected here --></div>
+  </section>
+
+  <!-- ---------------- The question ---------------- -->
+  <section class="page page-question reveal">
+    <p class="signoff" id="signoff">Yours,</p>
+    <p class="signoff-name" id="signoff-name">Bikash</p>
+
+    <h2 class="question-heading" id="question-heading">Ruma, will you be mine?</h2>
+    <p class="question-subtext" id="question-subtext">Press the seal to answer.</p>
+
+    <div class="question-actions">
+      <button class="answer-yes wax-seal" id="yes-btn">
+        <span class="wax-seal-glyph" id="yes-label">Yes</span>
+      </button>
+      <button class="answer-no" id="no-btn">
+        <span id="no-label">Not yet</span>
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     CELEBRATION OVERLAY
+     ============================================================ -->
+<div class="celebration" id="celebration" hidden>
+  <canvas id="confetti-canvas"></canvas>
+  <div class="celebration-content">
+    <h1 id="celebration-heading">She said yes!</h1>
+    <p id="celebration-message">Thank you for making me the happiest.</p>
+    <p class="celebration-signature" id="celebration-signature">Forever yours, Bikash</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     LIGHTBOX (used by the gallery)
+     ============================================================ -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+  <p id="lightbox-caption"></p>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
